@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.pay.service.message.dao.RpTransactionMessageMapper">
+    <resultMap id="BaseResultMap" type="com.spring.pay.service.message.model.RpTransactionMessage">
+        <result column="id" property="id"/>
+        <result column="version" property="version"/>
+        <result column="editor" property="editor"/>
+        <result column="creater" property="creater"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="message_id" property="messageId"/>
+        <result column="message_body" property="messageBody"/>
+        <result column="message_data_type" property="messageDataType"/>
+        <result column="consumer_queue" property="consumerQueue"/>
+        <result column="message_send_times" property="messageSendTimes"/>
+        <result column="areadly_dead" property="areadlyDead"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="field1" property="field1"/>
+        <result column="field2" property="field2"/>
+        <result column="field3" property="field3"/>
+    </resultMap>
+
+    <sql id="table_name">rp_transaction_message</sql>
+
+    <sql id="base_column_list">
+        id,
+        <include refid="base_column_not_id"/>
+    </sql>
+
+    <sql id="base_column_not_id">
+        version,
+        editor,
+        creater,
+        edit_time,
+        create_time,
+        message_id,
+        message_body,
+        message_data_type,
+        consumer_queue,
+        message_send_times,
+        areadly_dead,
+        status,
+        remark,
+        field1,
+        field2,
+        field3
+    </sql>
+
+    <!---->
+    <sql id="map_sql">
+        <if test="messageId!=null and messageId!=''">and message_id = #{messageId}</if>
+        <if test="status!=null">and status = #{status}</if>
+        <if test="areadlyDead!=null">and areadly_dead = #{areadlyDead}</if>
+        <if test="createTimeBefore!=null and createTimeBefore!=''">
+            <![CDATA[ and create_time < #{createTimeBefore}]]>
+        </if>
+    </sql>
+
+    <!--插入记录-->
+    <insert id="insert" parameterType="com.spring.pay.service.message.model.RpTransactionMessage">
+        insert into
+        <include refid="table_name"/>
+        (
+        <include refid="base_column_list"/>
+        )
+        values
+        (
+        #{id},
+        0,
+        #{editor},
+        #{creater},
+        now(),
+        now(),
+        #{messageId},
+        #{messageBody},
+        #{messageDataType},
+        #{consumerQueue},
+        #{messageSendTimes},
+        #{areadlyDead},
+        #{status},
+        #{remark},
+        #{field1},
+        #{field2},
+        #{field3}
+        )
+    </insert>
+
+    <!--更新消息-->
+    <update id="update" parameterType="com.spring.pay.service.message.model.RpTransactionMessage">
+        update
+        <include refid="table_name"/>
+        <set>
+            <if test="version!=null and version!=''">version=#{version}+1</if>
+            <if test="editor!=null">editor=#{editor}</if>
+            <if test="creater!=null">creater=#{creater}</if>
+            <if test="editTime!=null">edit_time=#{editTime}</if>
+            <if test="messageId!=null and messageId!=''">message_id=#{messageId}</if>
+            <if test="messageBody!=null and messageBody!=''">message_body=#{messageBody}</if>
+            <if test="messageDataType!=null and messageDataType!=''">message_data_type=#{messageDataType}</if>
+            <if test="consumerQueue!=null and consumerQueue!=''">consumer_queue=#{consumerQueue}</if>
+            <if test="messageSendTimes!=null">message_send_times=#{messageSendTimes}</if>
+            <if test="areadlyDead!=null">areadly_dead=#{areadlyDead}</if>
+            <if test="status!=null">status=#{status}</if>
+            <if test="remark!=null and remark!=''">remark=#{remark}</if>
+            <if test="field1!=null and field1!=''">field1=#{field1}</if>
+            <if test="field2!=null and field2!=''">field2=#{field2}</if>
+            <if test="field3!=null and field3!=''">field3=#{field3}</if>
+        </set>
+    </update>
+
+    <!--根据ID获取数据-->
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="base_column_list"/>
+        from
+        <include refid="table_name"/>
+        where id = #{id}
+    </select>
+
+    <!--map参数来查询数据-->
+    <select id="getByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="base_column_list"/>
+        from
+        <include refid="table_name"/>
+        <where>
+            <include refid="map_sql"/>
+        </where>
+    </select>
+
+    <select id="listPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="base_column_list"/>
+        from
+        <include refid="table_name"/>
+        <where>
+            <include refid="map_sql"/>
+        </where>
+    </select>
+</mapper>

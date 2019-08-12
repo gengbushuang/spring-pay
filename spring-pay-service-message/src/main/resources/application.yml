@@ -1,0 +1,38 @@
+server:
+  port: 18081
+  tomcat:
+    uri-encoding: UTF-8
+
+
+mybatis:
+  configLocation: classpath:/mybatis/mybatis-config.xml
+
+spring:
+  application:
+    name: pay-message-service
+
+  rabbitmq:
+    host: 192.168.3.11
+    port: 32771
+    username: guest
+    password: guest
+
+  druid:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.3.11:3306/rc_pay_dubbo_message?characterEncoding=UTF-8&useSSL=true
+    username: root
+    password: root123
+    maxActive: 30
+    minIdle: 5
+    maxWait: 10000
+    validationQuery: SELECT 'x'
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.3.11:8761/eureka/
+
+
+
