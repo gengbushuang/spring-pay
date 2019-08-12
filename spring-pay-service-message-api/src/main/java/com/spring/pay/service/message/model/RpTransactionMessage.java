@@ -2,6 +2,7 @@ package com.spring.pay.service.message.model;
 
 import com.spring.pay.common.core.model.BaseEntity;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Data
 public class RpTransactionMessage extends BaseEntity {
@@ -28,16 +29,6 @@ public class RpTransactionMessage extends BaseEntity {
 
     @Override
     public String toString() {
-        return "RpTransactionMessage{" +
-                "messageId='" + messageId + '\'' +
-                ", messageBody='" + messageBody + '\'' +
-                ", messageDataType='" + messageDataType + '\'' +
-                ", consumerQueue='" + consumerQueue + '\'' +
-                ", messageSendTimes=" + messageSendTimes +
-                ", areadlyDead='" + areadlyDead + '\'' +
-                ", field1='" + field1 + '\'' +
-                ", field2='" + field2 + '\'' +
-                ", field3='" + field3 + '\'' +
-                "} " + super.toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 }
